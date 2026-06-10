@@ -1,0 +1,17 @@
+{
+  "name": "scout-sdk",
+  "version": "0.1.0",
+  "description": "The canonical TypeScript SDK for the DarbotLM Scout control plane: typed client with retries, Agent2Agent, managed-policy helpers, task helpers, and a built-in mock.",
+  "keywords": ["scout", "darbotlm", "sdk", "a2a", "mcp", "agents"],
+  "license": "MIT",
+  "author": "Daryl Yourk (@dayour)",
+  "repository": { "type": "git", "url": "https://github.com/dayour/scout-sdk.git", "directory": "packages/sdk" },
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } },
+  "files": ["dist"],
+  "sideEffects": false,
+  "engines": { "node": ">=20" },
+  "scripts": { "build": "tsc -b" }
+}

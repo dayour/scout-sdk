@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scout-sdk"
+version = "0.1.0"
+description = "Python SDK for the DarbotLM Scout control plane (sync + async)."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Daryl Yourk" }]
+dependencies = ["httpx>=0.27", "pydantic>=2.7"]
+
+[project.optional-dependencies]
+test = ["pytest>=8.0", "pytest-asyncio>=0.23"]
+
+[project.urls]
+Homepage = "https://github.com/dayour/scout-sdk"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["scout_sdk*"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
