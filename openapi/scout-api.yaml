@@ -1,0 +1,142 @@
+openapi: 3.0.3
+info:
+  title: Scout API
+  version: 1.0.0
+  description: >
+    DarbotLM Scout control plane. Coordinates the Microsoft Scout fleet
+    (Clawpilot) and all DLMCP resources. Served by the gateway under /scout.
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:9000
+  - url: http://10.1.8.69:9000
+tags:
+  - name: scout
+paths:
+  /scout/health:
+    get:
+      tags: [scout]
+      operationId: health
+      summary: Control-plane health
+      responses:
+        "200": { description: OK }
+  /scout/info:
+    get:
+      tags: [scout]
+      operationId: info
+      summary: Describe Scout surfaces
+      responses:
+        "200": { description: OK }
+  /scout/catalog:
+    get:
+      tags: [scout]
+      operationId: catalog
+      summary: All DLMCP resources Scout can coordinate
+      responses:
+        "200": { description: OK }
+  /scout/fleet:
+    get:
+      tags: [scout]
+      operationId: fleet
+      summary: Fleet (nodes + control agents)
+      responses:
+        "200": { description: OK }
+  /scout/nodes:
+    get:
+      tags: [scout]
+      operationId: listNodes
+      summary: List Microsoft Scout fleet nodes
+      responses:
+        "200": { description: OK }
+  /scout/nodes/{nodeId}:
+    get:
+      tags: [scout]
+      operationId: getNode
+      parameters:
+        - name: nodeId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200": { description: OK }
+        "404": { description: Not found }
+  /scout/policy:
+    get:
+      tags: [scout]
+      operationId: getPolicy
+      parameters:
+        - name: allowFrontier
+          in: query
+          schema: { type: boolean, default: true }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ScoutPolicy" }
+  /scout/policy/render:
+    post:
+      tags: [scout]
+      operationId: renderPolicy
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [platform]
+              properties:
+                platform: { type: string, enum: [linux, windows, macos] }
+                policy: { $ref: "#/components/schemas/ScoutPolicy" }
+      responses:
+        "200": { description: OK }
+  /scout/tasks:
+    get:
+      tags: [scout]
+      operationId: listTasks
+      responses:
+        "200": { description: OK }
+    post:
+      tags: [scout]
+      operationId: dispatchTask
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title]
+              properties:
+                title: { type: string }
+                prompt: { type: string }
+                nodeId: { type: string }
+      responses:
+        "200": { description: OK }
+  /scout/tasks/{taskId}:
+    get:
+      tags: [scout]
+      operationId: getTask
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200": { description: OK }
+        "404": { description: Not found }
+components:
+  schemas:
+    ScoutPolicy:
+      type: object
+      properties:
+        version: { type: integer, default: 1 }
+        allowScoutFrontierAccess: { type: boolean }
+        forcePrompt: { type: boolean }
+        restrictToWorkspace: { type: boolean }
+        disableHeartbeat: { type: boolean }
+        disableAutomations: { type: boolean }
+        disabledServers: { type: array, items: { type: string } }
+        disabledModels: { type: array, items: { type: string } }
+        disabledProviders: { type: array, items: { type: string } }
+        disabledPermissionKinds: { type: array, items: { type: string } }
+        browserEgressBlockedOrigins: { type: array, items: { type: string } }
