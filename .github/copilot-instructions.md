@@ -34,10 +34,10 @@
 - Docs deploy workflow (`.github/workflows/docs.yml`) builds docs then publishes to GitHub Pages.
 
 ## Errors encountered and workarounds
-- Historical docs deployment failure (`actions run 27283542007`):
+- Historical docs deployment failure ([actions run 27283542007](https://github.com/dayour/scout-sdk/actions/runs/27283542007)):
   - Error: `Failed to create deployment (status: 404)` / `Ensure GitHub Pages has been enabled`.
   - Workaround: enable GitHub Pages for the repository (`Settings -> Pages`) before expecting deploy jobs to pass.
-- Historical docs build failure on a Dependabot branch (`actions run 27283731188`):
+- Historical docs build failure on a Dependabot branch ([actions run 27283731188](https://github.com/dayour/scout-sdk/actions/runs/27283731188)):
   - Error: `TypeError: Cannot read properties of undefined (reading 'useCssCascadeLayers')` while running `docusaurus build`.
   - Workaround: update Docusaurus packages as a compatible set (core/preset/types/tsconfig/module aliases) and re-run `npm run docs:build`.
 - Local validation in this branch succeeded for all baseline commands listed above.
