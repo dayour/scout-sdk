@@ -8,6 +8,12 @@ coverage/
 .env.*
 !.env.example
 *.log
+*.pem
+*.key
+*.pfx
+*.p12
+*.jks
+.npmrc
 .DS_Store
 Thumbs.db
 __pycache__/
@@ -19,4 +25,3 @@ __pycache__/
 *.egg-info/
 .pytest_cache/
 dist/
-

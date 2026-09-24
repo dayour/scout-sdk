@@ -8,9 +8,12 @@ title: ScoutClient
 ```ts
 import { ScoutClient } from "scout-sdk";
 
+const gateway = process.env.SCOUT_GATEWAY;
+if (!gateway) throw new Error("SCOUT_GATEWAY is required");
+
 const scout = new ScoutClient({
-  baseUrl: "https://scout-gateway.example.com",
-  token: "<bearer>",          // optional, sets Authorization
+  baseUrl: gateway,
+  token: process.env.SCOUT_TOKEN, // optional, sets Authorization
   timeoutMs: 60000,
   retry: { retries: 3 },       // merged with defaults
   onResponse: (ctx) => console.log(ctx.status, ctx.url),

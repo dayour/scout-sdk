@@ -31,8 +31,11 @@ Requests retry with exponential backoff + jitter on configurable statuses and on
 network/timeout failures.
 
 ```ts
+const gateway = process.env.SCOUT_GATEWAY;
+if (!gateway) throw new Error("SCOUT_GATEWAY is required");
+
 const scout = new ScoutClient({
-  baseUrl: "https://scout-gateway.example.com",
+  baseUrl: gateway,
   timeoutMs: 30000,
   retry: {
     retries: 5,

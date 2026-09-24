@@ -14,9 +14,13 @@ pip install ./python      # or: pip install scout-sdk (once published)
 ## Sync
 
 ```python
+import os
 from scout_sdk import ScoutClient, default_policy, render_policy
 
-with ScoutClient("https://scout-gateway.example.com", token="<bearer>") as scout:
+with ScoutClient(
+    os.environ["SCOUT_GATEWAY"],
+    token=os.environ.get("SCOUT_TOKEN"),
+) as scout:
     print(scout.health())
     for node in scout.nodes():
         print(node.id, node.platform, node.status)
@@ -32,10 +36,11 @@ with ScoutClient("https://scout-gateway.example.com", token="<bearer>") as scout
 
 ```python
 import asyncio
+import os
 from scout_sdk import AsyncScoutClient
 
 async def main():
-    async with AsyncScoutClient("https://scout-gateway.example.com") as scout:
+    async with AsyncScoutClient(os.environ["SCOUT_GATEWAY"]) as scout:
         print(await scout.health())
         task = await scout.dispatch("build")
         print(await scout.wait_for_task(task.id))
@@ -48,3 +53,6 @@ asyncio.run(main())
 `ScoutPolicy`, `ScoutNode`, `ScoutTask`, `ScoutHealth`, `ScoutCatalog`,
 `ScoutFleet` are pydantic v2 models. Policy helpers: `default_policy`,
 `render_policy`, `to_windows_registry`, `to_macos_defaults`.
+
+Set `SCOUT_GATEWAY` to the deployment-specific control-plane origin and use
+`SCOUT_TOKEN` only when the gateway requires bearer authentication.

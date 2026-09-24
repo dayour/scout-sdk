@@ -7,9 +7,10 @@ pip install ./python     # from the repo root, or: pip install scout-sdk (once p
 ## Sync
 
 ```python
+import os
 from scout_sdk import ScoutClient, default_policy, render_policy
 
-with ScoutClient("https://scout-gateway.example.com") as scout:
+with ScoutClient(os.environ["SCOUT_GATEWAY"]) as scout:
     print(scout.health())
     for node in scout.nodes():
         print(node.id, node.platform, node.status)
@@ -24,10 +25,11 @@ with ScoutClient("https://scout-gateway.example.com") as scout:
 
 ```python
 import asyncio
+import os
 from scout_sdk import AsyncScoutClient
 
 async def main():
-    async with AsyncScoutClient("https://scout-gateway.example.com") as scout:
+    async with AsyncScoutClient(os.environ["SCOUT_GATEWAY"]) as scout:
         print(await scout.health())
         print(await scout.nodes())
 
@@ -37,5 +39,13 @@ asyncio.run(main())
 ## Auth
 
 ```python
-ScoutClient("https://scout-gateway.example.com", token="<bearer>")
+import os
+
+ScoutClient(
+    os.environ["SCOUT_GATEWAY"],
+    token=os.environ.get("SCOUT_TOKEN"),
+)
 ```
+
+Set `SCOUT_GATEWAY` to the deployment-specific control-plane origin. Never
+commit production endpoints or tokens to source.

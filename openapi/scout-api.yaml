@@ -8,8 +8,12 @@ info:
   license:
     name: MIT
 servers:
-  - url: http://localhost:9000
-  - url: https://scout-gateway.example.com
+  - url: "{gateway}"
+    description: Scout control-plane origin; configure generated clients from SCOUT_GATEWAY.
+    variables:
+      gateway:
+        default: http://localhost:9000
+        description: Deployment-specific Scout gateway origin.
 tags:
   - name: scout
 paths:

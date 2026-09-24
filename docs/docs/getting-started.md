@@ -19,7 +19,10 @@ npm run docs:build
 ```ts
 import { ScoutClient, defaultPolicy, renderPolicy } from "scout-sdk";
 
-const scout = new ScoutClient({ baseUrl: "https://scout-gateway.example.com" });
+const gateway = process.env.SCOUT_GATEWAY;
+if (!gateway) throw new Error("SCOUT_GATEWAY is required");
+
+const scout = new ScoutClient({ baseUrl: gateway });
 
 const health = await scout.health();
 const catalog = await scout.catalog();              // every DLMCP resource
@@ -48,7 +51,12 @@ pip install ./python
 ```
 
 ```python
+import os
 from scout_sdk import ScoutClient
-with ScoutClient("https://scout-gateway.example.com") as scout:
+
+with ScoutClient(os.environ["SCOUT_GATEWAY"]) as scout:
     print(scout.health())
 ```
+
+Set `SCOUT_GATEWAY` to the deployment-specific control-plane origin, for
+example `https://scout-gateway.example.com`.

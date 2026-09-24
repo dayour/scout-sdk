@@ -34,7 +34,10 @@ npm install scout-sdk
 ```ts
 import { ScoutClient } from "scout-sdk";
 
-const scout = new ScoutClient({ baseUrl: "https://scout-gateway.example.com", token: process.env.SCOUT_TOKEN });
+const gateway = process.env.SCOUT_GATEWAY;
+if (!gateway) throw new Error("SCOUT_GATEWAY is required");
+
+const scout = new ScoutClient({ baseUrl: gateway, token: process.env.SCOUT_TOKEN });
 console.log(await scout.health());
 console.log(await scout.fleetSummary());
 ```

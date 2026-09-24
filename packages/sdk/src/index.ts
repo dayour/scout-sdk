@@ -3,7 +3,9 @@
  *
  * @example
  * import { ScoutClient } from "scout-sdk";
- * const scout = new ScoutClient({ baseUrl: "https://scout-gateway.example.com" });
+ * const gateway = process.env.SCOUT_GATEWAY;
+ * if (!gateway) throw new Error("SCOUT_GATEWAY is required");
+ * const scout = new ScoutClient({ baseUrl: gateway });
  * const health = await scout.health();
  */
 export const VERSION = "0.1.0";
